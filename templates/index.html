@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Upload X-ray Image
+    </div>
+    <div class="card-body">
+        <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Select an X-ray image to detect bone fracture:</label>
+                <input class="form-control" type="file" id="file" name="file" accept=".jpg,.jpeg,.png" required>
+            </div>
+            <div class="mb-3">
+                <img id="preview" class="preview-image d-none">
+            </div>
+            <button type="submit" class="btn btn-primary">Detect Fracture</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Preview the selected image
+    document.getElementById('file').addEventListener('change', function(event) {
+        const preview = document.getElementById('preview');
+        const file = event.target.files[0];
+        
+        if (file) {
+            preview.src = URL.createObjectURL(file);
+            preview.classList.remove('d-none');
+        } else {
+            preview.classList.add('d-none');
+        }
+    });
+</script>
+{% endblock %}
